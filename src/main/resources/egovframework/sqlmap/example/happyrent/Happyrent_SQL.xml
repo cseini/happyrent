@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://www.ibatis.com/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="Happyrent">
+	<select id="happyrentDAO.selectList" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		SELECT type.type_name, car.name, car.price, fuel.fuel_name, mi.mi_name
+			FROM car
+				JOIN type
+				ON car.type_code = type.type_code
+				JOIN mileage mi
+				ON car.mi_code = mi.mi_code
+				JOIN fuel
+				ON car.fuel_code = fuel.fuel_code
+			 <dynamic prepend="WHERE">
+				 <isNotEmpty property="car_type" prepend="AND">
+				 	type.type_code=#car_type#
+				 </isNotEmpty>
+				 <isNotEmpty property="car_mileage" prepend="AND">
+				 	mi.mi_code=#car_mileage#
+				 </isNotEmpty>
+				 <isNotEmpty property="car_fuel" prepend="AND">
+				 	fuel.fuel_code=#car_fuel#
+				 </isNotEmpty>
+			 </dynamic>	
+	</select>
+</sqlMap>
+                                    
